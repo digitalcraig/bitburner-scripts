@@ -89,13 +89,13 @@ export async function main(ns) {
 
   let hasAllParents = false
 
+  ns.tprint(`[${localeHHMMSS()}] Checking parent connections`)
   while (!hasAllParents) {
     hasAllParents = true
 
     Object.keys(serverMap.servers).forEach((hostname) => {
       const server = serverMap.servers[hostname]
 
-      ns.tprint(`[${localeHHMMSS()}] Checking parent connections for ` + hostname)
       if (!server.parent) hasAllParents = false
 
       if (hostname === 'home') {
@@ -147,6 +147,7 @@ export async function main(ns) {
     })
   }
 
+  ns.tprint(`[${localeHHMMSS()}] Saving server map`)
   setItem(settings().keys.serverMap, serverMap)
 
 /* Not ready to start the hack yet.
