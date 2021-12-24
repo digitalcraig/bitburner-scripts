@@ -27,7 +27,7 @@ export async function main(ns) {
     `https://raw.githubusercontent.com/digitalcraig/bitburner-scripts/master/src/init.js?ts=${new Date().getTime()}`,
     "init.js"
   );
-  ns.spawn("initHacking.ns", 1);
+  ns.spawn("init.js", 1);
 }
 ```
 
