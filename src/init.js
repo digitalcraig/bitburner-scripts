@@ -14,8 +14,8 @@ const officialFilesToDownload = [
 const officialFilePrefix = '/official/'
 
 const baseUrl = 'https://raw.githubusercontent.com/digitalcraig/bitburner-scripts/master/src/'
-const filesToDownload = []
-const filePrefix = '/'
+const filesToDownload = ['common.js']
+const filePrefix = '/dc/'
 
 const valuesToRemove = ['BB_SERVER_MAP']
 
@@ -64,6 +64,8 @@ export async function main(ns) {
     if (nopull == false) {
         ns.tprint(`[${localeHHMMSS()}] Downloading official scripts`)
         await pullScripts(ns, officialBaseUrl, officialFilesToDownload, officialFilePrefix)
+        ns.tprint(`[${localeHHMMSS()}] Downloading digitalcraig scripts`)
+        await pullScripts(ns, baseUrl, filesToDownload, filePrefix)
     }
 
     if (keepvalues == false) {
