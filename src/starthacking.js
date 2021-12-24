@@ -27,6 +27,6 @@ function localeHHMMSS(ms = 0) {
 */
     } else {
       ns.tprint(`[${localeHHMMSS()}] Spawning spider`)
-      ns.spawn('spider.ns', 1, '') 
+      ns.spawn('spider.js', 1, '') 
     }
   }
