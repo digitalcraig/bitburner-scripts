@@ -19,7 +19,7 @@ const filesToDownload = [
     'starthacking.js',
     'spider.js'
 ]
-const filePrefix = '/'
+const filePrefix = ''
 
 const valuesToRemove = ['BB_SERVER_MAP']
 
@@ -38,7 +38,7 @@ async function pullScripts(ns, baseUrl, filesToDownload, filePrefix) {
         await ns.scriptKill('/'+filename, 'home')
         await ns.rm('/'+filename)
         await ns.sleep(200)
-        ns.tprint(`[${localeHHMMSS()}] Trying to download ${path} to `,filePrefix + filename)
+        ns.tprint(`[${localeHHMMSS()}] Trying to download ${path} to `+ filePrefix + filename)
         await ns.wget(path + '?ts=' + new Date().getTime(), filePrefix + filename)
     }
     
