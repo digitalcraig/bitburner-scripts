@@ -1,11 +1,5 @@
-function localeHHMMSS(ms = 0) {
-    if (!ms) {
-      ms = new Date().getTime()
-    }
-  
-    return new Date(ms).toLocaleTimeString()
-  }
-  
+import { localeHHMMSS } from 'common.js'
+
   export async function main(ns) {
     ns.tprint(`[${localeHHMMSS()}] Starting the hack`)
   

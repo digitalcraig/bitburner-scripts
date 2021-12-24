@@ -1,4 +1,4 @@
-import { settings, setItem } from 'common.js'
+import { settings, setItem, localeHHMMSS } from 'common.js'
 
 const hackPrograms = ['BruteSSH.exe', 'FTPCrack.exe', 'relaySMTP.exe', 'HTTPWorm.exe', 'SQLInject.exe']
 
@@ -23,14 +23,6 @@ function allHacks(host) {
   ns.relaysmtp(host)
   ns.httpworm(host)
   ns.sqlinject(host)
-}
-
-function localeHHMMSS(ms = 0) {
-  if (!ms) {
-    ms = new Date().getTime()
-  }
-
-  return new Date(ms).toLocaleTimeString()
 }
 
 export async function main(ns) {

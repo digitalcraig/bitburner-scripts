@@ -21,11 +21,20 @@ export function getItem(key) {
 export function setItem(key, value) {
   localStorage.setItem(key, JSON.stringify(value))
 }
-  
+
+export function localeHHMMSS(ms = 0) {
+  if (!ms) {
+    ms = new Date().getTime()
+  }
+
+  return new Date(ms).toLocaleTimeString()
+}
+
 export async function main(ns) {
   return {
     settings,
     getItem,
     setItem,
+    localeHHMMSS,
   }
 }
