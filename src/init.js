@@ -5,6 +5,7 @@ const filesToDownload = [
   'official/basic_hack.js',
   'official/analyze_server.js',
 ]
+
 const valuesToRemove = ['BB_SERVER_MAP']
 
 function localeHHMMSS(ms = 0) {
@@ -16,11 +17,10 @@ function localeHHMMSS(ms = 0) {
 }
 
 export async function main(ns) {
-    ns.tprint(`[${localeHHMMSS()}] Downloading scripts`)
 
     let hostname = ns.getHostname()
     let nopull = false
-    let keepservers = false
+    let keepvalues = false
 
     if (hostname !== 'home') {
         throw new Exception('Run the script from home')
@@ -38,6 +38,7 @@ export async function main(ns) {
     }
 
     if (nopull == false) {
+        ns.tprint(`[${localeHHMMSS()}] Downloading scripts`)
         for (let i = 0; i < filesToDownload.length; i++) {
                 const filename = filesToDownload[i]
                 const path = baseUrl + filename
@@ -49,8 +50,8 @@ export async function main(ns) {
         }
     }
 
-    if (keepservers == false) {
-        ns.tprint(`[${localeHHMMSS()}] Clearing server map`)
+    if (keepvalues == false) {
+        ns.tprint(`[${localeHHMMSS()}] Clearing local storage`)
         valuesToRemove.map((value) => localStorage.removeItem(value))
     }
 

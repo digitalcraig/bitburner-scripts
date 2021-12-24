@@ -1,0 +1,3 @@
+[submodule "src/official"]
+	path = src/official
+	url = https://github.com/bitburner-official/bitburner-scripts
