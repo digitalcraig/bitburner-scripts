@@ -17,7 +17,11 @@ const baseUrl = 'https://raw.githubusercontent.com/digitalcraig/bitburner-script
 const filesToDownload = [
     'common.js',
     'starthacking.js',
-    'spider.js'
+    'spider.js',
+    'hackingcontroller.js',
+    'grow.js',
+    'weaken.js',
+    'hack.js'
 ]
 const filePrefix = ''
 
