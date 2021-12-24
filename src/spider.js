@@ -80,7 +80,7 @@ export async function main(ns) {
     }
 
     // Save host's connections into server map
-    ns.tprint(`[${localeHHMMSS()}] Mapping ` + host + `connections.`)
+    ns.tprint(`[${localeHHMMSS()}] Mapping ` + host + ` connections.`)
     const connections = ns.scan(host) || ['home']
     serverMap.servers[host].connections = connections
 
