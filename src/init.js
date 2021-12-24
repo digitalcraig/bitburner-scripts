@@ -26,12 +26,12 @@ export async function main(ns) {
         throw new Exception('Run the script from home')
     }
 
-    if (args.length > 0 ) {
-        for (let i = 0; i < args.length; i++) {
-            if (args[i] == 'nopull') {
+    if (ns.args.length > 0 ) {
+        for (let i = 0; i < ns.args.length; i++) {
+            if (ns.args[i] == 'nopull') {
                 nopull = true
             }
-            if (args[i] == 'keepservers') {
+            if (ns.args[i] == 'keepservers') {
                 keepservers = true
             }
         }
