@@ -5,7 +5,11 @@ const officialFilesToDownload = [
     'analyze_server.js',
     'basic_hack.js',
     'custom-stats.js',
-    'deploy.js'
+    'deploy.js',
+    'find_coding_contract.js',
+    'find_server.js',
+    'monitor.js',
+    'opened_servers.js',
 ]
 const officialFilePrefix = '/official/'
 
@@ -23,16 +27,17 @@ function localeHHMMSS(ms = 0) {
   return new Date(ms).toLocaleTimeString()
 }
 
-function pull(ns, baseUrl, filesToDownload, filePrefix) {
+async function pullScripts(ns, baseUrl, filesToDownload, filePrefix) {
     for (let i = 0; i < filesToDownload.length; i++) {
         const filename = filesToDownload[i]
         const path = baseUrl + filename
         await ns.scriptKill('/'+filename, 'home')
         await ns.rm('/'+filename)
         await ns.sleep(200)
-        ns.tprint(`[${localeHHMMSS()}] Trying to download ${path} to `,prefix + filename)
-        await ns.wget(path + '?ts=' + new Date().getTime(), prefix + filename)
+        ns.tprint(`[${localeHHMMSS()}] Trying to download ${path} to `,filePrefix + filename)
+        await ns.wget(path + '?ts=' + new Date().getTime(), filePrefix + filename)
     }
+    
 }
 
 export async function main(ns) {
@@ -58,7 +63,7 @@ export async function main(ns) {
 
     if (nopull == false) {
         ns.tprint(`[${localeHHMMSS()}] Downloading official scripts`)
-        pull(officialBaseUrl, officialFilesToDownload, officialPrefix)
+        await pullScripts(ns, officialBaseUrl, officialFilesToDownload, officialFilePrefix)
     }
 
     if (keepvalues == false) {
