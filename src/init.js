@@ -7,7 +7,7 @@ const officialFilesToDownload = [
     'custom-stats.js',
     'deploy.js'
 ]
-const officialPrefix = '/official'
+const officialPrefix = '/official/'
 
 const baseUrl = 'https://raw.githubusercontent.com/digitalcraig/bitburner-scripts/master/src/'
 const filesToDownload = []
@@ -58,7 +58,7 @@ export async function main(ns) {
 
     if (nopull == false) {
         ns.tprint(`[${localeHHMMSS()}] Downloading official scripts`)
-        pull(officialBaseUrl, officialFilesToDownload, '/official/')
+        pull(officialBaseUrl, officialFilesToDownload, officialPrefix)
     }
 
     if (keepvalues == false) {

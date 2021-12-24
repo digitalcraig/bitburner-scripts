@@ -7,9 +7,10 @@ export async function main(ns) {
     throw new Exception("Run the script from home");
   }
 
+  await ns.rm('init.js')
   await ns.wget(
     `https://raw.githubusercontent.com/digitalcraig/bitburner-scripts/master/src/init.js?ts=${new Date().getTime()}`,
-    "init.js"
+    'init.js'
   );
-  ns.spawn("init.js", 1);
+  ns.spawn('init.js', 1);
 }
