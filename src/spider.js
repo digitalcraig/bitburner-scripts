@@ -1,29 +1,5 @@
-import { settings, setItem, localeHHMMSS } from 'common.js'
-
-const hackPrograms = ['BruteSSH.exe', 'FTPCrack.exe', 'relaySMTP.exe', 'HTTPWorm.exe', 'SQLInject.exe']
-
-function getPlayerDetails(ns) {
-  let portHacks = 0
-
-  hackPrograms.forEach((hackProgram) => {
-    if (ns.fileExists(hackProgram, 'home')) {
-      portHacks += 1
-    }
-  })
-
-  return {
-    hackingLevel: ns.getHackingLevel(),
-    portHacks,
-  }
-}
-
-function allHacks(host) {
-  ns.brutessh(host)
-  ns.ftpcrack(host)
-  ns.relaysmtp(host)
-  ns.httpworm(host)
-  ns.sqlinject(host)
-}
+/** @param {NS} ns **/
+import { hackPrograms, settings, setItem, localeHHMMSS, getPlayerDetails, allHacks } from 'common.js'
 
 export async function main(ns) {
   ns.tprint(`[${localeHHMMSS()}] Starting spider`)
@@ -142,13 +118,11 @@ export async function main(ns) {
   ns.tprint(`[${localeHHMMSS()}] Saving server map`)
   setItem(settings().keys.serverMap, serverMap)
 
-/* Not ready to start the hack yet.
   if (!scriptToRunAfter) {
-    ns.tprint(`[${localeHHMMSS()}] Spawning mainHack.ns`)
-    ns.spawn('mainHack.ns', 1)
+    ns.tprint(`[${localeHHMMSS()}] Spawning hackingcontroller.js`)
+    ns.spawn('hackingcontroller.js', 1)
   } else {
     ns.tprint(`[${localeHHMMSS()}] Spawning ${scriptToRunAfter}`)
     ns.spawn(scriptToRunAfter, 1)
   }
-*/
 }
