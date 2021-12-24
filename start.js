@@ -9,7 +9,7 @@ export async function main(ns) {
 
   await ns.wget(
     `https://raw.githubusercontent.com/digitalcraig/bitburner-scripts/master/src/init.js?ts=${new Date().getTime()}`,
-    "/init.js"
+    "init.js"
   );
-  ns.spawn("/init.js", 1);
+  ns.spawn("init.js", 1);
 }
