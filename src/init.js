@@ -7,11 +7,11 @@ const officialFilesToDownload = [
     'custom-stats.js',
     'deploy.js'
 ]
-const officialPrefix = '/official/'
+const officialFilePrefix = '/official/'
 
 const baseUrl = 'https://raw.githubusercontent.com/digitalcraig/bitburner-scripts/master/src/'
 const filesToDownload = []
-const prefix = '/'
+const filePrefix = '/'
 
 const valuesToRemove = ['BB_SERVER_MAP']
 
@@ -23,7 +23,7 @@ function localeHHMMSS(ms = 0) {
   return new Date(ms).toLocaleTimeString()
 }
 
-function pull(ns, baseUrl, filesToDownload, prefix) {
+function pull(ns, baseUrl, filesToDownload, filePrefix) {
     for (let i = 0; i < filesToDownload.length; i++) {
         const filename = filesToDownload[i]
         const path = baseUrl + filename
