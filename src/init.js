@@ -14,8 +14,12 @@ const officialFilesToDownload = [
 const officialFilePrefix = '/official/'
 
 const baseUrl = 'https://raw.githubusercontent.com/digitalcraig/bitburner-scripts/master/src/'
-const filesToDownload = ['common.js']
-const filePrefix = '/dc/'
+const filesToDownload = [
+    'common.js',
+    'starthacking.js',
+    'spider.js'
+]
+const filePrefix = '/'
 
 const valuesToRemove = ['BB_SERVER_MAP']
 
@@ -73,6 +77,11 @@ export async function main(ns) {
         valuesToRemove.map((value) => localStorage.removeItem(value))
     }
 
+
+    // TODO script to kill all before starting hack
     //ns.tprint(`[${localeHHMMSS()}] Spawning killAll.ns`)
     //ns.spawn('killAll.ns', 1, 'runHacking.ns')
+
+    ns.tprint(`[${localeHHMMSS()}] Spawning hacking script`)
+    ns.spawn('starthacking.js',1,'')
 }

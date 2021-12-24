@@ -12,20 +12,20 @@ export function settings() {
     }
   }
   
-  export function getItem(key) {
-    let item = localStorage.getItem(key)
+export function getItem(key) {
+  let item = localStorage.getItem(key)
+
+  return item ? JSON.parse(item) : undefined
+}
+
+export function setItem(key, value) {
+  localStorage.setItem(key, JSON.stringify(value))
+}
   
-    return item ? JSON.parse(item) : undefined
+export async function main(ns) {
+  return {
+    settings,
+    getItem,
+    setItem,
   }
-  
-  export function setItem(key, value) {
-    localStorage.setItem(key, JSON.stringify(value))
-  }
-  
-  export async function main(ns) {
-    return {
-      settings,
-      getItem,
-      setItem,
-    }
-  }
+}
