@@ -1,5 +1,5 @@
 /** @param {NS} ns **/
-import { getItem, setItem, getPlayerDetails } from 'common.js'
+import { getItem, setItem, getPlayerDetails, localeHHMMSS, hackScripts, hackPrograms, numberWithCommas, convertMSToHHMMSS, createUUID } from 'common.js'
 
 const hackingParameters = {
     homeRamReserved: 20,
@@ -7,7 +7,7 @@ const hackingParameters = {
     homeRamExtraRamReserved: 12,
     homeRamBigMode: 64,
     minSecurityLevelOffset: 1,
-    maxMoneyMultiplayer: 0.9,
+    maxMoneyMultiplier: 0.9,
     minSecurityWeight: 100,
     mapRefreshInterval: 24 * 60 * 60 * 1000,
     maxWeakenTime: 30 * 60,
@@ -41,20 +41,21 @@ function getHackableServers(ns, servers) {
             if (!ns.hasRootAccess(hostname)) {
             hackPrograms.forEach((hackProgram) => {
                 if (ns.fileExists(hackProgram, 'home')) {
-                ns[hackProgram.split('.').shift().toLocaleLowerCase()](hostname)
+                 ns[hackProgram.split('.').shift().toLocaleLowerCase()](hostname)
                 }
             })
             ns.nuke(hostname)
             }
-
-            ns.scp(hackScripts, hostname)
+            // Returning error
+            // ns.scp(hackScripts, hostname)
         }
 
         return hostname
         })
         .filter((hostname) => servers[hostname].ram >= 2)
-
+        
     hackableServers.sort((a, b) => servers[a].ram - servers[b].ram)
+    ns.tprint(`[${localeHHMMSS()}] Hackable servers are: ` + hackableServers)
 
     return hackableServers
 }
@@ -62,15 +63,18 @@ function getHackableServers(ns, servers) {
 function findTargetServer(ns, serversList, servers, serverExtraData) {
     const playerDetails = getPlayerDetails(ns)
   
-    ns.tprint(`[${localeHHMMSS()}] Calculating server targets`)
+    ns.tprint(`[${localeHHMMSS()}] Calculating server targets from server list: ` + serversList)
     serversList = serversList
-      .filter((hostname) => servers[hostname].hackingLevel <= playerDetails.hackingLevel)
-      .filter((hostname) => servers[hostname].maxMoney)
+      // TODO Figure out why filters leave empty list, handle empty list gracefully
+      //.filter((hostname) => servers[hostname].hackingLevel <= playerDetails.hackingLevel)
+      //.filter((hostname) => servers[hostname].maxMoney)
       .filter((hostname) => hostname !== 'home')
-      .filter((hostname) => ns.getWeakenTime(hostname) < hackingParameters.maxWeakenTime)
-  
+      //.filter((hostname) => ns.getWeakenTime(hostname) < hackingParameters.maxWeakenTime)
+
+      ns.tprint(`[${localeHHMMSS()}] Calculating server targets from filtered  server list: ` + serversList)
+      
     let weightedServers = serversList.map((hostname) => {
-      const fullHackCycles = Math.ceil(100 / Math.max(0.00000001, ns.hackAnalyzePercent(hostname)))
+      const fullHackCycles = Math.ceil(100 / Math.max(0.00000001, ns.hackAnalyze(hostname)))
   
       serverExtraData[hostname] = {
         fullHackCycles,
@@ -88,8 +92,8 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
     })
   
     weightedServers.sort((a, b) => b.serverValue - a.serverValue)
-    ns.print(JSON.stringify(weightedServers, null, 2))
-  
+    
+    ns.tprint(`[${localeHHMMSS()}] Weighted servers are: ` + JSON.stringify(weightedServers, null, 2)
     return weightedServers.map((server) => server.hostname)
   }
 
@@ -122,6 +126,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       const targetServers = findTargetServer(ns, hackableServers, serverMap.servers, serverExtraData)
       const bestTarget = targetServers.shift()
   
+      ns.tprint(`[${localeHHMMSS()}] Getting Hack time for: ` + bestTarget)
       const hackTime = ns.getHackTime(bestTarget) * 1000
       const growTime = ns.getGrowTime(bestTarget) * 1000
       const weakenTime = ns.getWeakenTime(bestTarget) * 1000
