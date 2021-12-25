@@ -21,7 +21,8 @@ const filesToDownload = [
     'hackingcontroller.js',
     'grow.js',
     'weaken.js',
-    'hack.js'
+    'hack.js',
+    'killall.js'
 ]
 const filePrefix = ''
 
