@@ -1,4 +1,6 @@
 /** @param {NS} ns **/
+import { localeHHMMSS } from 'common.js'
+
 export async function main(ns) {
     const target = ns.args[0]
     const threads = ns.args[1]
