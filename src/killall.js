@@ -24,9 +24,9 @@ const scriptsToKill = [
       throw new Exception('Run the script from home')
     }
   
-    const serverMap = getItem(settings.keys.serverMap)
+    const serverMap = getItem(settings().keys.serverMap)
   
-    if (!serverMap || serverMap.lastUpdate < new Date().getTime() - settings.mapRefreshInterval) {
+    if (!serverMap || serverMap.lastUpdate < new Date().getTime() - settings().mapRefreshInterval) {
       ns.tprint(`[${localeHHMMSS()}] Spawning spider script`)
       ns.spawn('spider.js', 1, 'killall.js')
       ns.exit()
