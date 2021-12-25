@@ -82,9 +82,8 @@ export async function main(ns) {
     }
 
 
-    // TODO script to kill all before starting hack
-    //ns.tprint(`[${localeHHMMSS()}] Spawning killAll.ns`)
-    //ns.spawn('killAll.ns', 1, 'runHacking.ns')
+    ns.tprint(`[${localeHHMMSS()}] Spawning killall script`)
+    ns.spawn('killAll.ns', 1, 'runHacking.js')
 
     ns.tprint(`[${localeHHMMSS()}] Spawning hacking script`)
     ns.spawn('starthacking.js',1,'')

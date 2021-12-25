@@ -8,7 +8,7 @@ export async function main(ns) {
       await ns.sleep(delay)
     }
   
-    ns.print(`Starting operation: hack on ${target} in ${threads} threads`)
+    ns.tprint(`[${localeHHMMSS()}] Starting operation: hack on ${target} in ${threads} threads`)
     await ns.hack(target, { threads, stock: true })
     ns.exit()
   }

@@ -10,7 +10,7 @@ const hackingParameters = {
     maxMoneyMultiplier: 0.9,
     minSecurityWeight: 100,
     mapRefreshInterval: 24 * 60 * 60 * 1000,
-    maxWeakenTime: 30 * 60,
+    maxWeakenTime: 30 * 60 * 1000,
     keys: {
       serverMap: 'BB_SERVER_MAP',
     },
@@ -46,8 +46,6 @@ function getHackableServers(ns, servers) {
             })
             ns.nuke(hostname)
             }
-            // Returning error
-            // ns.scp(hackScripts, hostname)
         }
 
         return hostname
@@ -59,19 +57,29 @@ function getHackableServers(ns, servers) {
 
     return hackableServers
 }
-  
+
+async function copyScripts(ns, server) {
+
+  ns.tprint(`[${localeHHMMSS()}] Copying hacking scripts to ` + server)
+  await ns.scp(hackScripts, "home", server)
+
+}
+
 function findTargetServer(ns, serversList, servers, serverExtraData) {
     const playerDetails = getPlayerDetails(ns)
   
     ns.tprint(`[${localeHHMMSS()}] Calculating server targets from server list: ` + serversList)
+/*
+    serversList.forEach((server) => {
+      ns.tprint(`[${localeHHMMSS()}] Server details ` + JSON.stringify(servers[server], null, 2))
+      ns.tprint(`[${localeHHMMSS()}] Server details ` + ns.getWeakenTime(server))
+    })
+*/
     serversList = serversList
-      // TODO Figure out why filters leave empty list, handle empty list gracefully
-      //.filter((hostname) => servers[hostname].hackingLevel <= playerDetails.hackingLevel)
-      //.filter((hostname) => servers[hostname].maxMoney)
+      .filter((hostname) => servers[hostname].hackingLevel <= playerDetails.hackingLevel)
+      .filter((hostname) => servers[hostname].maxMoney)
       .filter((hostname) => hostname !== 'home')
-      //.filter((hostname) => ns.getWeakenTime(hostname) < hackingParameters.maxWeakenTime)
-
-      ns.tprint(`[${localeHHMMSS()}] Calculating server targets from filtered  server list: ` + serversList)
+      .filter((hostname) => ns.getWeakenTime(hostname) < hackingParameters.maxWeakenTime)
       
     let weightedServers = serversList.map((hostname) => {
       const fullHackCycles = Math.ceil(100 / Math.max(0.00000001, ns.hackAnalyze(hostname)))
@@ -92,8 +100,9 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
     })
   
     weightedServers.sort((a, b) => b.serverValue - a.serverValue)
-    
-    ns.tprint(`[${localeHHMMSS()}] Weighted servers are: ` + JSON.stringify(weightedServers, null, 2)
+/*    
+    ns.tprint(`[${localeHHMMSS()}] Weighted servers are: ` + JSON.stringify(weightedServers, null, 2))
+*/
     return weightedServers.map((server) => server.hostname)
   }
 
@@ -196,7 +205,8 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
           const server = serverMap.servers[hackableServers[i]]
           let cyclesFittable = Math.max(0, Math.floor(server.ram / 1.75))
           const cyclesToRun = Math.max(0, Math.min(cyclesFittable, growCycles))
-  
+          
+          await copyScripts(ns, server.host)
           if (growCycles) {
             await ns.exec('grow.js', server.host, cyclesToRun, bestTarget, cyclesToRun, growDelay, createUUID())
             growCycles -= cyclesToRun
@@ -257,7 +267,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
           const server = serverMap.servers[hackableServers[i]]
           let cyclesFittable = Math.max(0, Math.floor(server.ram / 1.7))
           const cyclesToRun = Math.max(0, Math.min(cyclesFittable, hackCycles))
-  
+          
           if (hackCycles) {
             await ns.exec('hack.js', server.host, cyclesToRun, bestTarget, cyclesToRun, hackDelay, createUUID())
             hackCycles -= cyclesToRun

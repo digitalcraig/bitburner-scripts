@@ -8,7 +8,7 @@ export async function main(ns) {
       await ns.sleep(delay)
     }
   
-    ns.print(`Starting operation: grow on ${target} in ${threads} threads`)
+    ns.tprint(`[${localeHHMMSS()}] Starting operation: grow on ${target} in ${threads} threads`)
     await ns.grow(target, { threads, stock: true })
     ns.exit()
   }

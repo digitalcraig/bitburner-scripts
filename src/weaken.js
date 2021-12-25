@@ -8,7 +8,7 @@ export async function main(ns) {
       await ns.sleep(delay)
     }
   
-    ns.print(`Starting operation: weaken on ${target} in ${threads} threads`)
+    ns.tprint(`[${localeHHMMSS()}] Starting operation: weaken on ${target} in ${threads} threads`)
     await ns.weaken(target, { threads, stock: true })
     ns.exit()
   }
