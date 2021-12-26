@@ -100,9 +100,9 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
     })
   
     weightedServers.sort((a, b) => b.serverValue - a.serverValue)
-/*    
+    
     ns.tprint(`[${localeHHMMSS()}] Weighted servers are: ` + JSON.stringify(weightedServers, null, 2))
-*/
+
     return weightedServers.map((server) => server.hostname)
   }
 
@@ -136,12 +136,12 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       const bestTarget = targetServers.shift()
   
       ns.tprint(`[${localeHHMMSS()}] Getting Hack time for: ` + bestTarget)
-      const hackTime = ns.getHackTime(bestTarget) * 1000
-      const growTime = ns.getGrowTime(bestTarget) * 1000
-      const weakenTime = ns.getWeakenTime(bestTarget) * 1000
+      const hackTime = ns.getHackTime(bestTarget) 
+      const growTime = ns.getGrowTime(bestTarget) 
+      const weakenTime = ns.getWeakenTime(bestTarget) 
   
-      const growDelay = Math.max(0, weakenTime - growTime - 15 * 1000)
-      const hackDelay = Math.max(0, growTime + growDelay - hackTime - 15 * 1000)
+      const growDelay = Math.max(0, weakenTime - growTime - 15)
+      const hackDelay = Math.max(0, growTime + growDelay - hackTime - 15)
   
       const securityLevel = ns.getServerSecurityLevel(bestTarget)
       const money = ns.getServerMoneyAvailable(bestTarget)
@@ -291,8 +291,8 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
           }
         }
       }
-      const sleepTime = weakenTime + 300 / 1000
+      const sleepTime = weakenTime + 300
       ns.tprint(`[${localeHHMMSS()}] Sleeping for ${sleepTime} seconds.`)
-      await ns.sleep(weakenTime + 300)
+      await ns.sleep(sleepTime * 1000)
     }
   }
