@@ -215,7 +215,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
           
           await copyScripts(ns, server.host)
           if (growCycles) {
-            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the grow script requires ` + growScriptRam + `. Executing ` + cyclesToRun ` threads of grow on ` + server.host)
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the grow script requires ` + growScriptRam + `. Executing ` + cyclesToRun + ` threads of grow on ` + server.host)
             await ns.exec('grow.js', server.host, cyclesToRun, bestTarget, cyclesToRun, growDelay, createUUID())
             growCycles -= cyclesToRun
             cyclesFittable -= cyclesToRun
