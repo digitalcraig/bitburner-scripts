@@ -9,8 +9,8 @@ const hackingParameters = {
     minSecurityLevelOffset: 1,
     maxMoneyMultiplier: 0.9,
     minSecurityWeight: 100,
-    mapRefreshInterval: 24 * 60 * 60 * 1000,
-    maxWeakenTime: 30 * 60 * 1000,
+    mapRefreshInterval: 24 * 60 * 60,
+    maxWeakenTime: 30 * 60,
     keys: {
       serverMap: 'BB_SERVER_MAP',
     },
