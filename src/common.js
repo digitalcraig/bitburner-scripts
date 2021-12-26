@@ -1,6 +1,6 @@
 /** @param {NS} ns **/
 export const hackPrograms = ['BruteSSH.exe', 'FTPCrack.exe', 'relaySMTP.exe', 'HTTPWorm.exe', 'SQLInject.exe']
-export const hackScripts = ['hack.js', 'grow.js', 'weaken.js', 'common.js']
+export const hackScripts = ['hack.js', 'grow.js', 'weaken.js']
 
 export function settings() {
     return {

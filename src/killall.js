@@ -1,5 +1,25 @@
 /** @param {NS} ns **/
-import { getItem, localeHHMMSS, settings } from 'common.js'
+
+export function localeHHMMSS(ms = 0) {
+  if (!ms) {
+    ms = new Date().getTime()
+  }
+
+  return new Date(ms).toLocaleTimeString()
+}
+
+export function getItem(key) {
+  let item = localStorage.getItem(key)
+
+  return item ? JSON.parse(item) : undefined
+}
+
+const settings = {
+  mapRefreshInterval: 24 * 60 * 60 * 1000,
+  keys: {
+    serverMap: 'BB_SERVER_MAP',
+  },
+}
 
 const scriptsToKill = [
     'starthacking.js',
@@ -24,9 +44,9 @@ const scriptsToKill = [
       throw new Exception('Run the script from home')
     }
   
-    const serverMap = getItem(settings().keys.serverMap)
+    const serverMap = getItem(settings.keys.serverMap)
   
-    if (!serverMap || serverMap.lastUpdate < new Date().getTime() - settings().mapRefreshInterval) {
+    if (!serverMap || serverMap.lastUpdate < new Date().getTime() - settings.mapRefreshInterval) {
       ns.tprint(`[${localeHHMMSS()}] Spawning spider script`)
       ns.spawn('spider.js', 1, 'killall.js')
       ns.exit()

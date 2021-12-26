@@ -1,5 +1,5 @@
 /** @param {NS} ns **/
-import { getItem, setItem, getPlayerDetails, localeHHMMSS, hackScripts, hackPrograms, numberWithCommas, convertMSToHHMMSS, createUUID } from 'common.js'
+import { getItem, getPlayerDetails, localeHHMMSS, hackScripts, hackPrograms, numberWithCommas, convertMSToHHMMSS, createUUID } from 'common.js'
 
 const hackingParameters = {
     homeRamReserved: 20,
