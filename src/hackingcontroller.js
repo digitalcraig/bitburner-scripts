@@ -143,8 +143,8 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       const weakenTime = serverMap.servers[bestTarget].weakenTime
 
   
-      const growDelay = Math.max(0, weakenTime - growTime - 15)
-      const hackDelay = Math.max(0, growTime + growDelay - hackTime - 15)
+      const growDelay = Math.max(0, weakenTime - growTime - 0.015) // Grow to complete 15ms before weaken
+      const hackDelay = Math.max(0, growTime + growDelay - hackTime - 0.015) // Hack to complete 15ms after grow
   
       const securityLevel = ns.getServerSecurityLevel(bestTarget)
       const money = ns.getServerMoneyAvailable(bestTarget)
@@ -222,7 +222,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
           }
   
           if (cyclesFittable) {
-            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the weaken script requires ` + weakenScriptRam + `. Executing ` + cyclesFittable ` threads of weaken on ` + server.host)
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the weaken script requires ` + weakenScriptRam + `. Executing ` + cyclesFittable + ` threads of weaken on ` + server.host)
             await ns.exec('weaken.js', server.host, cyclesFittable, bestTarget, cyclesFittable, 0, createUUID())
             weakenCycles -= cyclesFittable
           }
