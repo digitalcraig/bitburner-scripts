@@ -69,12 +69,12 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
     const playerDetails = getPlayerDetails(ns)
   
     ns.tprint(`[${localeHHMMSS()}] Calculating server targets from server list: ` + serversList)
-/*
+    // Debug
     serversList.forEach((server) => {
       ns.tprint(`[${localeHHMMSS()}] Server details ` + JSON.stringify(servers[server], null, 2))
       ns.tprint(`[${localeHHMMSS()}] Server details ` + ns.getWeakenTime(server))
     })
-*/
+
     serversList = serversList
       .filter((hostname) => servers[hostname].hackingLevel <= playerDetails.hackingLevel)
       .filter((hostname) => servers[hostname].maxMoney)
@@ -291,7 +291,8 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
           }
         }
       }
-  
+      const sleepTime = weakenTime + 300 / 1000
+      ns.tprint(`[${localeHHMMSS()}] Sleeping for ${sleepTime} seconds.`)
       await ns.sleep(weakenTime + 300)
     }
   }

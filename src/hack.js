@@ -1,5 +1,4 @@
 /** @param {NS} ns **/
-import { localeHHMMSS } from 'common.js'
 
 export function localeHHMMSS(ms = 0) {
   if (!ms) {
