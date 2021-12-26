@@ -136,11 +136,11 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       const hackableServers = getHackableServers(ns, serverMap.servers)
       const targetServers = findTargetServer(ns, hackableServers, serverMap.servers, serverExtraData)
       const bestTarget = targetServers.shift()
-  
-      const hackTime = bestTarget.hackTime
-      const growTime = bestTarget.growTime
-      const weakenTime = bestTarget.weakenTime
-  
+
+      const hackTime = serverMap.servers[bestTarget].hackTime
+      const growTime = serverMap.servers[bestTarget].growTime
+      const weakenTime = serverMap.servers[bestTarget].weakenTime
+
       const growDelay = Math.max(0, weakenTime - growTime - 15)
       const hackDelay = Math.max(0, growTime + growDelay - hackTime - 15)
   
