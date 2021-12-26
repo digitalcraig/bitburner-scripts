@@ -133,12 +133,10 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
 
       serverMap.servers.home.ram = Math.max(0, serverMap.servers.home.ram - hackingParameters.homeRamReserved)
 
-      servers = serverMap.servers
       const hackableServers = getHackableServers(ns, serverMap.servers)
       const targetServers = findTargetServer(ns, hackableServers, serverMap.servers, serverExtraData)
       const bestTarget = targetServers.shift()
   
-      ns.tprint(`[${localeHHMMSS()}] Getting Hack time for: ` + bestTarget)
       const hackTime = bestTarget.hackTime
       const growTime = bestTarget.growTime
       const weakenTime = bestTarget.weakenTime
