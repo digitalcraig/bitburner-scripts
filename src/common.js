@@ -69,6 +69,19 @@ export function convertMSToHHMMSS(ms = 0) {
   return new Date(ms).toISOString().substr(11, 8)
 }
 
+export function convertSToHHMMSS(s = 0) {
+  if (s <= 0) {
+    return '00:00:00'
+  }
+
+  if (!s) {
+    s = new Date().getTime()
+  }
+
+  return new Date(s*1000).toISOString().substr(11, 8)
+}
+
+
 export function numberWithCommas(x) {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
 }

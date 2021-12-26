@@ -1,5 +1,5 @@
 /** @param {NS} ns **/
-import { getItem, getPlayerDetails, localeHHMMSS, hackScripts, hackPrograms, numberWithCommas, convertMSToHHMMSS, createUUID } from 'common.js'
+import { getItem, getPlayerDetails, localeHHMMSS, hackScripts, hackPrograms, numberWithCommas, convertSToHHMMSS, createUUID } from 'common.js'
 
 const hackingParameters = {
     homeRamReserved: 20,
@@ -72,14 +72,13 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
     // Debug
     serversList.forEach((server) => {
       ns.tprint(`[${localeHHMMSS()}] Server details ` + JSON.stringify(servers[server], null, 2))
-      ns.tprint(`[${localeHHMMSS()}] Server details ` + ns.getWeakenTime(server))
     })
 
     serversList = serversList
       .filter((hostname) => servers[hostname].hackingLevel <= playerDetails.hackingLevel)
       .filter((hostname) => servers[hostname].maxMoney)
       .filter((hostname) => hostname !== 'home')
-      .filter((hostname) => ns.getWeakenTime(hostname) < hackingParameters.maxWeakenTime)
+      .filter((hostname) => servers[hostname].weakenTime < hackingParameters.maxWeakenTime)
       
     let weightedServers = serversList.map((hostname) => {
       const fullHackCycles = Math.ceil(100 / Math.max(0.00000001, ns.hackAnalyze(hostname)))
@@ -130,15 +129,16 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       }
 
       serverMap.servers.home.ram = Math.max(0, serverMap.servers.home.ram - hackingParameters.homeRamReserved)
-  
+
+      servers = serverMap.servers
       const hackableServers = getHackableServers(ns, serverMap.servers)
       const targetServers = findTargetServer(ns, hackableServers, serverMap.servers, serverExtraData)
       const bestTarget = targetServers.shift()
   
       ns.tprint(`[${localeHHMMSS()}] Getting Hack time for: ` + bestTarget)
-      const hackTime = ns.getHackTime(bestTarget) 
-      const growTime = ns.getGrowTime(bestTarget) 
-      const weakenTime = ns.getWeakenTime(bestTarget) 
+      const hackTime = servers(bestTarget).hackTime
+      const growTime = servers(bestTarget).growTime
+      const weakenTime = servers(bestTarget).weakenTime
   
       const growDelay = Math.max(0, weakenTime - growTime - 15)
       const hackDelay = Math.max(0, growTime + growDelay - hackTime - 15)
@@ -178,9 +178,9 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       )
       ns.tprint(`[${localeHHMMSS()}] Current values: security: ${Math.floor(securityLevel * 1000) / 1000}; money: $${numberWithCommas(parseInt(money, 10))}`)
       ns.tprint(
-        `[${localeHHMMSS()}] Time to: hack: ${convertMSToHHMMSS(hackTime)}; grow: ${convertMSToHHMMSS(growTime)}; weaken: ${convertMSToHHMMSS(weakenTime)}`
+        `[${localeHHMMSS()}] Time to: hack: ${convertSToHHMMSS(hackTime)}; grow: ${convertSToHHMMSS(growTime)}; weaken: ${convertSToHHMMSS(weakenTime)}`
       )
-      ns.tprint(`[${localeHHMMSS()}] Delays: ${convertMSToHHMMSS(hackDelay)} for hacks, ${convertMSToHHMMSS(growDelay)} for grows`)
+      ns.tprint(`[${localeHHMMSS()}] Delays: ${convertSToHHMMSS(hackDelay)} for hacks, ${convertSToHHMMSS(growDelay)} for grows`)
   
       if (action === 'weaken') {
         if (hackingParameters.changes.weaken * weakenCycles > securityLevel - serverMap.servers[bestTarget].minSecurityLevel) {
