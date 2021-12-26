@@ -92,6 +92,9 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       return {
         hostname,
         serverValue,
+        hackTime: servers[hostname].hackTime,
+        growTime: servers[hostname].growTime,
+        weakenTime: servers[hostname].weakenTime,
         minSecurityLevel: servers[hostname].minSecurityLevel,
         securityLevel: ns.getServerSecurityLevel(hostname),
         maxMoney: servers[hostname].maxMoney,
@@ -136,9 +139,9 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       const bestTarget = targetServers.shift()
   
       ns.tprint(`[${localeHHMMSS()}] Getting Hack time for: ` + bestTarget)
-      const hackTime = servers(bestTarget).hackTime
-      const growTime = servers(bestTarget).growTime
-      const weakenTime = servers(bestTarget).weakenTime
+      const hackTime = bestTarget.hackTime
+      const growTime = bestTarget.growTime
+      const weakenTime = bestTarget.weakenTime
   
       const growDelay = Math.max(0, weakenTime - growTime - 15)
       const hackDelay = Math.max(0, growTime + growDelay - hackTime - 15)
