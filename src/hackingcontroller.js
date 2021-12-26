@@ -137,10 +137,12 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       const targetServers = findTargetServer(ns, hackableServers, serverMap.servers, serverExtraData)
       const bestTarget = targetServers.shift()
 
+      ns.tprint(`[${localeHHMMSS()}] Best Target details ` + JSON.stringify(bestTarget, null, 2))  
       const hackTime = serverMap.servers[bestTarget].hackTime
       const growTime = serverMap.servers[bestTarget].growTime
       const weakenTime = serverMap.servers[bestTarget].weakenTime
 
+  
       const growDelay = Math.max(0, weakenTime - growTime - 15)
       const hackDelay = Math.max(0, growTime + growDelay - hackTime - 15)
   
@@ -159,14 +161,18 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       let hackCycles = 0
       let growCycles = 0
       let weakenCycles = 0
-  
+
+      let hackScriptRam = ns.getScriptRam('hack.js')
+      let growScriptRam = ns.getScriptRam('grow.js')
+      let weakenScriptRam = ns.getScriptRam('weaken.js')
+
       for (let i = 0; i < hackableServers.length; i++) {
         const server = serverMap.servers[hackableServers[i]]
-        hackCycles += Math.floor(server.ram / 1.7)
-        growCycles += Math.floor(server.ram / 1.75)
+        hackCycles += Math.floor(server.ram / hackScriptRam)
+        growCycles += Math.floor(server.ram / growScriptRam)
       }
       weakenCycles = growCycles
-  
+    
       ns.tprint(
         `[${localeHHMMSS()}] Selected ${bestTarget} for a target. Planning to ${action} the server. Will wake up around ${localeHHMMSS(
           new Date().getTime() + weakenTime + 300
@@ -204,17 +210,19 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
   
         for (let i = 0; i < hackableServers.length; i++) {
           const server = serverMap.servers[hackableServers[i]]
-          let cyclesFittable = Math.max(0, Math.floor(server.ram / 1.75))
+          let cyclesFittable = Math.max(0, Math.floor(server.ram / growScriptRam))
           const cyclesToRun = Math.max(0, Math.min(cyclesFittable, growCycles))
           
           await copyScripts(ns, server.host)
           if (growCycles) {
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the grow script requires ` + growScriptRam + `. Executing ` + cyclesToRun ` threads of grow on ` + server.host)
             await ns.exec('grow.js', server.host, cyclesToRun, bestTarget, cyclesToRun, growDelay, createUUID())
             growCycles -= cyclesToRun
             cyclesFittable -= cyclesToRun
           }
   
           if (cyclesFittable) {
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the weaken script requires ` + weakenScriptRam + `. Executing ` + cyclesFittable ` threads of weaken on ` + server.host)
             await ns.exec('weaken.js', server.host, cyclesFittable, bestTarget, cyclesFittable, 0, createUUID())
             weakenCycles -= cyclesFittable
           }
@@ -227,16 +235,18 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
   
         for (let i = 0; i < hackableServers.length; i++) {
           const server = serverMap.servers[hackableServers[i]]
-          let cyclesFittable = Math.max(0, Math.floor(server.ram / 1.75))
+          let cyclesFittable = Math.max(0, Math.floor(server.ram / growScriptRam))
           const cyclesToRun = Math.max(0, Math.min(cyclesFittable, growCycles))
   
           if (growCycles) {
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the grow script requires ` + growScriptRam + `. Executing ` + cyclesToRun ` threads of grow on ` + server.host)
             await ns.exec('grow.js', server.host, cyclesToRun, bestTarget, cyclesToRun, growDelay, createUUID())
             growCycles -= cyclesToRun
             cyclesFittable -= cyclesToRun
           }
   
           if (cyclesFittable) {
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the weaken script requires ` + weakenScriptRam + `. Executing ` + cyclesFittable ` threads of weaken on ` + server.host)
             await ns.exec('weaken.js', server.host, cyclesFittable, bestTarget, cyclesFittable, 0, createUUID())
             weakenCycles -= cyclesFittable
           }
@@ -266,27 +276,29 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
   
         for (let i = 0; i < hackableServers.length; i++) {
           const server = serverMap.servers[hackableServers[i]]
-          let cyclesFittable = Math.max(0, Math.floor(server.ram / 1.7))
+          let cyclesFittable = Math.max(0, Math.floor(server.ram / hackScriptRam))
           const cyclesToRun = Math.max(0, Math.min(cyclesFittable, hackCycles))
           
           if (hackCycles) {
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the hack script requires ` + hackScriptRam + `. Executing ` + cyclesToRun + ` threads of hack on ` + server.host + ' with delay of ' + hackDelay)
             await ns.exec('hack.js', server.host, cyclesToRun, bestTarget, cyclesToRun, hackDelay, createUUID())
             hackCycles -= cyclesToRun
             cyclesFittable -= cyclesToRun
           }
   
-          const freeRam = server.ram - cyclesToRun * 1.7
-          cyclesFittable = Math.max(0, Math.floor(freeRam / 1.75))
+          const freeRam = server.ram - (cyclesToRun * hackScriptRam)
+          cyclesFittable = Math.max(0, Math.floor(freeRam / growScriptRam))
   
           if (cyclesFittable && growCycles) {
             const growCyclesToRun = Math.min(growCycles, cyclesFittable)
-  
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the grow script requires ` + growScriptRam + `. Executing ` + growCyclesToRun + ` threads of hack on ` + server.host + ' with delay of ' + growDelay)
             await ns.exec('grow.js', server.host, growCyclesToRun, bestTarget, growCyclesToRun, growDelay, createUUID())
             growCycles -= growCyclesToRun
             cyclesFittable -= growCyclesToRun
           }
   
           if (cyclesFittable) {
+            ns.tprint(`[${localeHHMMSS()}] ` + server.host + ` has ` + server.ram + ` RAM available and the weaken script requires ` + weakenScriptRam + `. Executing ` + cyclesFittable + ` threads of hack on ` + server.host)
             await ns.exec('weaken.js', server.host, cyclesFittable, bestTarget, cyclesFittable, 0, createUUID())
             weakenCycles -= cyclesFittable
           }
