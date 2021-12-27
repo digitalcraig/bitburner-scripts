@@ -59,7 +59,7 @@ const scriptsToKill = [
       ns.tprint(`[${localeHHMMSS()}] Spawning ${scriptToRunAfter}`)
       ns.spawn(scriptToRunAfter, 1)
     } else {
-      ns.tprint(`[${localeHHMMSS()}] Spawning hacking controller`)
-      ns.spawn('hackingcontroller.js', 1)
+      ns.tprint(`[${localeHHMMSS()}] Starting Hacking`)
+      ns.spawn('starthacking.js', 1)
     }
   }
