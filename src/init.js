@@ -10,6 +10,7 @@ const officialFilesToDownload = [
     'find_server.js',
     'monitor.js',
     'opened_servers.js',
+    'buyservers.js'
 ]
 const officialFilePrefix = '/official/'
 
@@ -22,7 +23,8 @@ const filesToDownload = [
     'grow.js',
     'weaken.js',
     'hack.js',
-    'killall.js'
+    'killall.js',
+    'repl.js'
 ]
 const filePrefix = ''
 
@@ -84,6 +86,6 @@ export async function main(ns) {
 
 
     ns.tprint(`[${localeHHMMSS()}] Spawning killall script`)
-    ns.spawn('killall.js', 1, 'starthacking.js')
+    ns.spawn('killall.js', 1, 'buyservers.js')
 
 }

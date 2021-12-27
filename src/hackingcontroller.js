@@ -126,7 +126,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
   
       if (!serverMap || serverMap.lastUpdate < new Date().getTime() - hackingParameters.mapRefreshInterval) {
         ns.tprint(`[${localeHHMMSS()}] Refreshing server map`)
-        ns.spawn('spider.js', 1, 'hackingcontroller.js')
+        ns.spawn('spider.js', 1, 'buyservers.js')
         ns.exit()
         return
       }
