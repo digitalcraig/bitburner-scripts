@@ -17,7 +17,7 @@ export async function main(ns) {
       await ns.sleep(delay)
     }
   
-    ns.tprint(`[${localeHHMMSS()}] ` + ns.getHostname() `: weaken on ${target} in ${threads} threads`)
+    ns.tprint(`[${localeHHMMSS()}] ` + ns.getHostname() + `: weaken on ${target} in ${threads} threads`)
     await ns.weaken(target, { threads, stock: true })
     ns.exit()
   }
