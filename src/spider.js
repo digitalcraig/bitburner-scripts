@@ -20,7 +20,9 @@ export async function main(ns) {
   while (scanArray.length) {
     const host = scanArray.shift()
 
-    ns.tprint(`[${localeHHMMSS()}] Getting details of ` + host)
+    if (logDebug) {
+      ns.tprint(`[${localeHHMMSS()}] Getting details of ` + host)
+    }
 
     serverMap.servers[host] = {
       host,
