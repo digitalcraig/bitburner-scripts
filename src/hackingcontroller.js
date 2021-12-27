@@ -181,7 +181,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
     
       ns.tprint(
         `[${localeHHMMSS()}] Selected ${bestTarget} for a target. Planning to ${action} the server. Will wake up around ${localeHHMMSS(
-          new Date().getTime() + weakenTime + 300
+          new Date().getTime() + weakenTime + .0300
         )}`
       )
       ns.tprint(
@@ -324,7 +324,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
           }
         }
       }
-      const sleepTime = weakenTime + 300
+      const sleepTime = weakenTime + .0300 
       ns.tprint(`[${localeHHMMSS()}] Sleeping for ${sleepTime} seconds.`)
       await ns.sleep(sleepTime * 1000)
     }
