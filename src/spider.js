@@ -1,6 +1,8 @@
 /** @param {NS} ns **/
 import { hackPrograms, settings, setItem, localeHHMMSS, getPlayerDetails, allHacks } from 'common.js'
 
+const logDebug = false
+
 export async function main(ns) {
   ns.tprint(`[${localeHHMMSS()}] Starting spider`)
 
@@ -51,7 +53,9 @@ export async function main(ns) {
     }
 
     // Save host's connections into server map
-    ns.tprint(`[${localeHHMMSS()}] Mapping ` + host + ` connections.`)
+    if (logDebug) {
+      ns.tprint(`[${localeHHMMSS()}] Mapping ` + host + ` connections.`)
+    }
     const connections = ns.scan(host) || ['home']
     serverMap.servers[host].connections = connections
 
@@ -60,7 +64,9 @@ export async function main(ns) {
 
   let hasAllParents = false
 
-  ns.tprint(`[${localeHHMMSS()}] Checking parent connections`)
+  if (logDebug) {
+    ns.tprint(`[${localeHHMMSS()}] Checking parent connections`)
+  }
   while (!hasAllParents) {
     hasAllParents = true
 

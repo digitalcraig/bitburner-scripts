@@ -1,18 +1,7 @@
 /** @param {NS} ns **/
+import { getItem, localeHHMMSS } from 'common.js'
 
-export function localeHHMMSS(ms = 0) {
-  if (!ms) {
-    ms = new Date().getTime()
-  }
-
-  return new Date(ms).toLocaleTimeString()
-}
-
-export function getItem(key) {
-  let item = localStorage.getItem(key)
-
-  return item ? JSON.parse(item) : undefined
-}
+const logDebug = false
 
 const settings = {
   mapRefreshInterval: 24 * 60 * 60 * 1000,
@@ -30,7 +19,6 @@ const scriptsToKill = [
     'playerervers.js',
     'hackingcontroller.js',
     'start.js',
-    'find.js',
     ]
     
   export async function main(ns) {
