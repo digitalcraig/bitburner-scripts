@@ -17,7 +17,7 @@ export async function main(ns) {
       await ns.sleep(delay)
     }
   
-    ns.tprint(`[${localeHHMMSS()}] ` + ns.getHostName() `: hack on ${target} in ${threads} threads`)
+    ns.tprint(`[${localeHHMMSS()}] ` + ns.getHostname() `: hack on ${target} in ${threads} threads`)
     await ns.hack(target, { threads, stock: true })
     ns.exit()
   }

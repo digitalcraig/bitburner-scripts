@@ -17,7 +17,7 @@ export async function main(ns) {
       await ns.sleep(delay)
     }
   
-    ns.tprint(`[${localeHHMMSS()}] ` + ns.getHostName() `: grow on ${target} in ${threads} threads`)
+    ns.tprint(`[${localeHHMMSS()}] ` + ns.getHostname() `: grow on ${target} in ${threads} threads`)
     await ns.grow(target, { threads, stock: true })
     ns.exit()
   }
