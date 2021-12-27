@@ -158,7 +158,7 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
       let action = 'weaken'
       if (securityLevel > serverMap.servers[bestTarget].minSecurityLevel + hackingParameters.minSecurityLevelOffset) {
         action = 'weaken'
-      } else if (money < serverMap.servers[bestTarget].maxMoney * hackingParameters.maxMoneyMultiplayer) {
+      } else if (money < serverMap.servers[bestTarget].maxMoney * hackingParameters.maxMoneyMultiplier) {
         action = 'grow'
       } else {
         action = 'hack'
