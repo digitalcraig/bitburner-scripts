@@ -5,7 +5,7 @@ const logDebug = false
 
 const settings = {
     maxPlayerServers: 25,
-    gbRamCost: 55000,
+    // gbRamCost: 55000,
     maxGbRam: 1048576,
     minGbRam: 64,
     totalMoneyAllocation: 0.9,
@@ -84,7 +84,7 @@ const settings = {
         let targetRam = Math.max(settings.minGbRam, smallestCurrentServer)
   
         if (targetRam === settings.minGbRam) {
-          while (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= targetRam * settings.gbRamCost * settings.maxPlayerServers) {
+          while (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= ns.getPurchasedServerCost(targetRam) * settings.maxPlayerServers) {
             targetRam *= 2
           }
   
@@ -94,7 +94,7 @@ const settings = {
         targetRam = Math.max(settings.minGbRam, targetRam)
         targetRam = Math.min(targetRam, settings.maxGbRam)
   
-        if (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= targetRam * settings.gbRamCost) {
+        if (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= ns.getPurchasedServerCost(targetRam)) {
           let hostname = `pserv-${targetRam}-${createUUID()}`
           hostname = ns.purchaseServer(hostname, targetRam)
   
@@ -117,7 +117,7 @@ const settings = {
         }
   
         if (smallestCurrentServer === biggestCurrentServer) {
-          while (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= targetRam * settings.gbRamCost) {
+          while (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= ns.getPurchasedServerCost(targetRam)) {
             targetRam *= 4
           }
   
@@ -134,7 +134,7 @@ const settings = {
             purchasedServers = getPurchasedServers(ns)
   
             if (targetRam > ns.getServerRam(purchasedServers[0]).shift()) {
-              if (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= targetRam * settings.gbRamCost) {
+              if (ns.getServerMoneyAvailable('home') * settings.totalMoneyAllocation >= ns.getPurchasedServerCost(targetRam)) {
                 let hostname = `pserv-${targetRam}-${createUUID()}`
   
                 await ns.killall(purchasedServers[0])
