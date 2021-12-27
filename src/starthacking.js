@@ -11,7 +11,7 @@ export async function main(ns) {
     throw new Exception('Run the script from home')
   }
 
-  const homeRam = ns.getServerRam('home').shift() // returns total RAM
+  const homeRam = ns.getServerMaxRam('home').shift() // returns total RAM
 
   if (homeRam >= 32) {
     ns.tprint(`[${localeHHMMSS()}] Spawning spider`)

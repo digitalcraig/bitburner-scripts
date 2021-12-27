@@ -87,6 +87,6 @@ export async function main(ns) {
 
 
     ns.tprint(`[${localeHHMMSS()}] Spawning killall script`)
-    ns.spawn('killall.js', 1, 'hackingcontroller.js')
+    ns.spawn('killall.js', 1, 'starthacking.js')
 
 }
