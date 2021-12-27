@@ -14,7 +14,7 @@ export async function main(ns) {
     const delay = ns.args[2] * 1000
   
     if (delay && delay > 0) {
-      await ns.sleep(delay*1000)
+      await ns.sleep(delay)
     }
   
     ns.tprint(`[${localeHHMMSS()}] Starting operation: grow on ${target} in ${threads} threads`)
