@@ -1,4 +1,3 @@
-/** @param {NS} ns **/
 import { getItem, getPlayerDetails, localeHHMMSS, hackScripts, hackPrograms, numberWithCommas, convertSToHHMMSS, createUUID } from 'common.js'
 
 const logDebug = false
@@ -23,10 +22,22 @@ const hackingParameters = {
     },
   }
 
+ /**
+ * This function determines the number of weaken cycles 
+ * @param {NS} ns
+ * @param {integer} growCycles The number of grow cycles to be run
+ * @returns {integer} The number of weaken cycles to run
+ */
 function weakenCyclesForGrow(growCycles) {
     return Math.max(0, Math.ceil(growCycles * (hackingParameters.changes.grow / hackingParameters.changes.weaken)))
   }
-  
+
+  /**
+ * This function determines the number of weaken cycles 
+ * @param {NS} ns
+ * @param {integer} hackCycles The number of hack cycles to be run
+ * @returns {integer} The number of weaken cycles to run
+ */
 function weakenCyclesForHack(hackCycles) {
 return Math.max(0, Math.ceil(hackCycles * (hackingParameters.changes.hack / hackingParameters.changes.weaken)))
 }
@@ -112,7 +123,12 @@ function findTargetServer(ns, serversList, servers, serverExtraData) {
     return weightedServers.map((server) => server.hostname)
   }
 
-  export async function main(ns) {
+ /**
+ * This script enables automtic hacking using available servers
+ * @param {NS} ns
+ */
+
+ export async function main(ns) {
     ns.tprint(`[${localeHHMMSS()}] Starting hacking controller`)
   
     let hostname = ns.getHostname()
